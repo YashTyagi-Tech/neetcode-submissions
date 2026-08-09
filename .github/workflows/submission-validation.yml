@@ -12,6 +12,9 @@ on:
       - 'tools/validate_submissions.py'
       - '.github/workflows/submission-validation.yml'
 
+permissions:
+  contents: read
+
 jobs:
   validate:
     runs-on: ubuntu-latest
