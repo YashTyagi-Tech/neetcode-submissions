@@ -4,39 +4,88 @@
 
 ---
 
-## What is this?
+## Purpose
 
-[NeetCode.io](https://neetcode.io) is a coding interview preparation platform featuring curated problems, video solutions, and an in-browser code editor. This repository is automatically populated with your accepted (or all) solutions using the **GitHub Sync** feature.
-
----
-
-## How GitHub Sync works
-
-1. **Connect your GitHub account** on [neetcode.io/profile/github](https://neetcode.io/profile/github).
-2. **Auto-commit** — every time you submit a solution on NeetCode, it is pushed here automatically (configurable by status).
-3. **Bulk Sync** — push all your past solutions at once from the GitHub settings page.
-4. **Manual sync** — from the submission history panel on any problem page, sync or remove individual submissions.
+This repository is an auto-synced archive of NeetCode submissions, with lightweight curation to improve discoverability and baseline quality checks.
 
 ---
 
 ## Repository structure
 
-Solutions are organized by topic folder, then problem ID. Each submission is stored as a separate file:
+Solutions are organized by topic, then problem slug, then submission number:
 
-```
+```text
 <topic-folder>/
-  <problem-id>/
-    submission-0.<ext>   ← first submission
-    submission-1.<ext>   ← second submission
+  <problem-slug>/
+    submission-0.<ext>
+    submission-1.<ext>
     ...
 ```
 
-**Example:**
+Current primary topic in this repository:
+
+- `Data Structures & Algorithms`
+
+---
+
+## Submission lifecycle
+
+1. Submit on NeetCode.
+2. Sync pushes file(s) into this repository.
+3. Validation runs locally and in CI for changed Python submissions.
+4. Preferred solution is tracked in `SOLUTIONS_INDEX.md` (latest by default).
+
+Historical submissions are preserved; improved attempts should generally be added as a new `submission-*` file.
+
+---
+
+## Validation
+
+### Local
+
+Validate all Python submissions:
+
+```bash
+python tools/validate_submissions.py
 ```
-Data Structures & Algorithms/two-integer-sum/submission-0.py
-Data Structures & Algorithms/binary-search/submission-0.ts
-Python For Beginners/python-hello-world/submission-0.py
+
+Validate only changed Python submissions:
+
+```bash
+python tools/validate_submissions.py --changed-only --base <base_sha> --head HEAD
 ```
+
+### CI
+
+GitHub Actions workflow: `.github/workflows/submission-validation.yml`
+
+- Runs on push and pull request when relevant files change.
+- Validates changed Python submission files.
+- Uses low-noise checks suited for judge-style snippets:
+  - Syntax parse
+  - At least one class or top-level function
+
+---
+
+## Contributor workflow
+
+See `CONTRIBUTING.md` for contribution standards, history-preservation rules, and incremental cleanup policy.
+
+---
+
+## Discoverability
+
+- Problem and submission coverage: `SOLUTIONS_INDEX.md`
+- Recommended submission per problem: tracked in the same index
+
+---
+
+## Rollout and maintenance
+
+- Start changes in narrow, topic-level batches.
+- Prioritize syntax/invalid-definition fixes first.
+- Apply consistency cleanup incrementally to avoid noisy PRs.
+- Revisit validation rules if recurring false positives appear.
 
 ---
 
@@ -55,17 +104,6 @@ Python For Beginners/python-hello-world/submission-0.py
 | Kotlin | `.kt` |
 | Swift | `.swift` |
 | SQL | `.sql` |
-
----
-
-## Settings
-
-Manage your sync preferences at [neetcode.io/profile/github](https://neetcode.io/profile/github):
-
-- **Auto-commit toggle** — enable or disable automatic commits on submission
-- **Status filter** — sync all submissions or accepted only
-- **Rename repository** — rename this repo or start fresh with a new one
-- **Bulk Sync** — push all past solutions at once (rate-limited)
 
 ---
 
